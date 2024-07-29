@@ -28,8 +28,8 @@ def emotion_detector(text_to_analyze):
             if max_score == score[i]:
                 dominant_emotion = emotion[i]
 
-    # If the response status code is 500, set label and score to None
-    elif response.status_code == 500:
+    # If the response status code is 400, set label and score to None
+    elif response.status_code == 400:
         anger_score = None
         disgust_score = None
         fear_score = None

@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request
+''' Executing this function initiates the application of sentiment
+    analysis to be executed over the Flask channel and deployed on
+    localhost:5000.
+'''
 
+from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask("Emotion Detection")
 
 @app.route("/emotionDetector")
 def emotion_analyze():
+    '''
+    Function anylizing the emotion of a text using emotion_detection.py file
+    '''
     text_to_analyze = request.args.get('textToAnalyze')
 
     response = emotion_detector(text_to_analyze)
@@ -18,13 +25,18 @@ def emotion_analyze():
     dominant_emotion = response['dominant_emotion']
 
     if dominant_emotion is None:
-        return "Invalid input! Try again."
+        output = "Invalid Text! Please try again."
     else:
-        output = "For the given statement, the system response is 'anger': {anger} 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}.The dominant emotion is {dominant}.".format(anger = anger_score, disgust = disgust_score, fear = fear_score, joy = joy_score, sadness = sadness_score, dominant = dominant_emotion)
-        return output
-        
+        output = f"""For the given statement, the system response is 'anger': {anger_score},
+                    'disgust': {disgust_score},'fear': {fear_score}, 'joy': {joy_score}, 
+                    and 'sadness': {sadness_score}.The dominant emotion is {dominant_emotion}."""
+    return output
+
 @app.route("/")
 def render_index_page():
+    ''' This function initiates the rendering of the main application
+        page over the Flask channel
+    '''
     return render_template('index.html')
 
 if __name__ == "__main__":
